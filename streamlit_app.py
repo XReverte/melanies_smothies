@@ -1,6 +1,5 @@
 # Import python packages
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col, when_matched
 
 # Write directly to the app
@@ -12,7 +11,8 @@ st.write("""Choose the fruits you want in your smooothie!""")
 name_on_order = st.text_input('Name on Smoothie')
 st.write('The name on ypur smoothie will be:', name_on_order)
 
-session = get_active_session()# Get the current credentials
+cnx=st.connection("Snowflake")
+session = cnx.session()# Get the current credentials
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
 #st.dataframe(data=my_dataframe, use_container_width=True) # Shows the dataframe on the page
 
